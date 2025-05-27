@@ -98,7 +98,7 @@ If you are unable to connect to your instance directly using ssh -i <key-file> u
       ```
     - ```bash
       icacls.exe “pythonkey.pem” /inheritance:r
-    ```
+      ```
     
 Replace  `pythonkey.pem` with your key pair file name.
 
@@ -108,7 +108,7 @@ This `chmod 400 pythonkey.pem` allow us to connect to instance, if we have not c
 
 2. Connect to Instance using `ssh -i "pythonkey.pem" ubuntu@<EC2-Public-IP>` . (Replace `pythonkey.pem` with your `.pem` file and public IP of instance find your Public IP in Console).
 
-  ![Success launch](https://github.com/user-attachments/assets/de2af1da-01a7-4f28-a801-84b2cc5f96ca)
+     ![Success launch](https://github.com/user-attachments/assets/de2af1da-01a7-4f28-a801-84b2cc5f96ca)
 
 ## Step 4: Set Up Python Environment on EC2
 
@@ -122,24 +122,24 @@ Update and install Python, pip, virtualenv using below command
 
   - Create project directory in Instance
    
-  ```bash
-  mkdir python-app && cd python-app
-  ```
+     ```bash
+     mkdir python-app && cd python-app
+     ```
 
   - Create virtual environment using below commands
   
-  ```bash
-  python3 -m venv venv
-  source venv/bin/activate
-  ```
+     ```bash
+     python3 -m venv venv
+     source venv/bin/activate
+     ```
 
   - Install Flask used for deploy python application
-   
-  ```bash
-  pip install flask
-  ```
+      
+     ```bash
+     pip install flask
+     ```
 
-  ![bin](https://github.com/user-attachments/assets/3a190b22-7d07-4007-984e-68337a9354c4)
+     ![bin](https://github.com/user-attachments/assets/3a190b22-7d07-4007-984e-68337a9354c4)
 
 ## Step 5: Transfer App Files to EC2
 
