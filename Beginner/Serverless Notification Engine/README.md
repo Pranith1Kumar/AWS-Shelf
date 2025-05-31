@@ -2,6 +2,18 @@
 
 A project for beginners to learn how to send notifications using Amazon Simple Notification Service (SNS) through Email, SMS, and automate those notifications using AWS Lambda.
 
+## AWS Terminology
+1. **Amazon SNS (Simple Notification Service):** Amazon SNS is a fully managed pub/sub messaging service used to decouple and fan-out messages to multiple subscribers via email, SMS, or Lambda for real-time alerts or notifications.
+2. **SNS Topic:** A Topic in SNS is a communication channel to group and manage multiple subscribers, allowing a single message to be sent to all endpoints subscribed to it.
+3. **SNS Subscription:** A Subscription is the endpoint (email, SMS, Lambda, etc.) where messages published to an SNS topic are delivered.
+4. **Publish Message:** Publishing a message means sending a payload to the SNS topic which then distributes it to all subscribed endpoints.
+5. **AWS Lambda:** AWS Lambda is a serverless compute service that runs backend code in response to triggers (like SNS events) without provisioning servers.
+6. **IAM (Identity and Access Management):** IAM manages access to AWS services and resources securely using roles, users, and policies for granting necessary permissions.
+7. **EventBridge (Optional):** Amazon EventBridge is a serverless event bus that connects application data from AWS services and triggers targets like Lambda or SNS based on defined rules.
+8. **CloudWatch (Optional):** Amazon CloudWatch is a monitoring and observability service that can trigger alarms or actions like invoking Lambda functions or sending SNS alerts based on metrics or logs.
+
+
+
 ## Step 1: Login to AWS Console
 1. Visit [https://aws.amazon.com](https://aws.amazon.com)
 2. Click "Sign In to the Console using root account".
@@ -92,7 +104,12 @@ If you want to send SNS messages automatically using code (e.g., triggered by an
 
    ![Confg lambda](https://github.com/user-attachments/assets/e7942b17-b390-4f76-baf6-61f045109a47)
 
-### 6.2 Add Code to Publish SNS Message
+### 6.2 Search for IAM
+1. Navigate for IAM Role in left side bar.
+2. Search for name similar to `AutomateSNSwithLambda-role-hkt1m6nq`.
+3. Attach the `AmazonSNSFullAccess` for the role.
+
+### 6.3 Add Code to Publish SNS Message
 1. In the Lambda function code editor, paste this:
 
 ```python
@@ -135,3 +152,39 @@ Replace the `TopicArn` with the actual ARN of your SNS topic from the SNS Consol
   ![Lambda SNS](https://github.com/user-attachments/assets/f9387708-0ce8-49e8-bd03-0639bd9932a3)
 
 
+## Step 8: Destroy
+1. Go to Subscribed Email and first Unsubscribe from the Topic
+2. Navigate to Topic and delete the Topic then in Topic delete the Subscription.
+
+   
+   ![image](https://github.com/user-attachments/assets/1bd70fdd-9d2a-4318-8029-0ab6301830b5)
+
+3. Navigate to Topic Delete the Topic created `MyFirstNotificationTopic`.
+4. Delete the Subscription.
+5. Search for AWS Lambda.
+6. Check on `AutomateSNSwithLambda` and in actions section click on delete.
+7. Search for IAM, Navigate to IAM Roles.
+8. Search for Role look like `AutomateSNSwithLambda-role-hkt1m6nq` created by AWS Lambda Function.
+9. Click on checkbox and Delete the role.
+
+
+## AWS SNS Pricing Table (Quick View - as of 2025)
+
+| Feature                      | Free Tier                 | Pricing (Beyond Free Tier)                     |
+| ---------------------------- | ------------------------- | ---------------------------------------------- |
+| **Email notifications**      | Unlimited                 | Free                                           |
+| **SMS - First 100 messages** | 100 SMS/month             | Varies by destination (e.g., \$0.00645/SMS US) |
+| **Mobile Push (FCM/APNS)**   | 1 million requests/month  | \$0.50 per million requests                    |
+| **HTTP/HTTPS delivery**      | 1 million publishes/month | \$0.50 per million publishes                   |
+| **Data transfer (out)**      | First 1GB free            | \$0.09/GB up to 10TB/month                     |
+
+
+SMS pricing depends on country. Check the [SNS SMS pricing page](https://aws.amazon.com/sns/sms-pricing/) for exact rates.
+
+## AWS Lambda Pricing Table
+
+| Pricing Component        | Free Tier                        | Paid Tier                               |
+| ------------------------ | -------------------------------- | --------------------------------------- |
+| **Requests**                 | 1 million requests/month         | \$0.20 per 1 million requests           |
+| **Duration**                 | 400,000 GB-seconds/month         | \$0.00001667 per GB-second              |
+| **Example Cost (low usage)** | Usually FREE for simple projects | Cost depends on usage duration & memory |
