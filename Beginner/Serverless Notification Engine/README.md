@@ -151,8 +151,8 @@ Replace the `TopicArn` with the actual ARN of your SNS topic from the SNS Consol
    
   ![Lambda SNS](https://github.com/user-attachments/assets/f9387708-0ce8-49e8-bd03-0639bd9932a3)
 
-
-## Step 8: Destroy
+> [!IMPORTANT]
+> ## Step 8: Destroy
 1. Go to Subscribed Email and first Unsubscribe from the Topic
 2. Navigate to Topic and delete the Topic then in Topic delete the Subscription.
 
