@@ -38,7 +38,11 @@ How the Architecture Works:
 4. It forwards the request to one healthy server.
 5. If one server fails, traffic is automatically redirected to the other server.
 6. Every request is logged to Amazon S3.
-7. CloudWatch collects performance metrics.\
+7. CloudWatch collects performance metrics.
+
+
+![ALB Architecture](https://github.com/Pranith1Kumar/AWS-Shelf/blob/96b0076705f68edfa8f0b8861f7758689184fe0c/Beginner/AWS%20Top%2010%20Core%20Services%20Projects/Create%20an%20Application%20Load%20Balancer/Assets/ALB%20Architecture.png)
+
 
 
 ## Step 2: AWS Services Used
@@ -152,6 +156,11 @@ Fill in the details:
 
 **Expected Outcome:** Your active AWS resource list will display a new VPC. It is named ALB-Project-VPC. It uses the 10.0.0.0/16 network range.
 
+Check below image for configurations.
+
+![Create VPC](https://github.com/Pranith1Kumar/AWS-Shelf/blob/96b0076705f68edfa8f0b8861f7758689184fe0c/Beginner/AWS%20Top%2010%20Core%20Services%20Projects/Create%20an%20Application%20Load%20Balancer/Assets/Create%20VPC.png)
+
+
 ## Step 7: Create Two Public Subnets
 
 An AWS subnet is a smaller, logical segment of a Virtual Private Cloud (VPC) that groups your resources based on security and networking needs using a specific range of IP addresses (CIDR block). Each subnet must reside entirely within a single physical Availability Zone and is categorized as either public, which routes directly to the internet via an Internet Gateway, or private, which isolates backend systems like databases from external access. Network traffic flowing into and out of these subnets is controlled and secured through associated route tables and Network Access Control Lists (NACLs).
@@ -171,11 +180,20 @@ Create Public Subnet A
 
 5. Click Create subnet.
 6. Create Public Subnet B
+
+![Subnet1](https://github.com/Pranith1Kumar/AWS-Shelf/blob/96b0076705f68edfa8f0b8861f7758689184fe0c/Beginner/AWS%20Top%2010%20Core%20Services%20Projects/Create%20an%20Application%20Load%20Balancer/Assets/Create%20Sub1.png)
+
+Config Subnet 1
+
+![Congig Subnet1](https://github.com/Pranith1Kumar/AWS-Shelf/blob/96b0076705f68edfa8f0b8861f7758689184fe0c/Beginner/AWS%20Top%2010%20Core%20Services%20Projects/Create%20an%20Application%20Load%20Balancer/Assets/Config%20Sub1.png)
+
 7. Repeat the process with:
    - **Subnet name:** Public-Subnet-B
    - **Availability Zone:** ap-south-1b
    - **IPv4 CIDR block:** 10.0.2.0/24
 8. Click Create subnet.
+
+![Subnet2](https://github.com/Pranith1Kumar/AWS-Shelf/blob/96b0076705f68edfa8f0b8861f7758689184fe0c/Beginner/AWS%20Top%2010%20Core%20Services%20Projects/Create%20an%20Application%20Load%20Balancer/Assets/Create%20Sub2.png)
 
 **Explanation**
 
@@ -230,11 +248,13 @@ Application Load Balancer
 
 Without the Internet Gateway, the request stops at the VPC boundary.
 
+![WorkFlow IGW](https://github.com/Pranith1Kumar/AWS-Shelf/blob/96b0076705f68edfa8f0b8861f7758689184fe0c/Beginner/AWS%20Top%2010%20Core%20Services%20Projects/Create%20an%20Application%20Load%20Balancer/Assets/IGW%20Work%20Flow.png)
+
 ### Create the Internet Gateway
 
 1. Open the AWS Management Console.
    - Search for VPC.
-  - Click VPC Dashboard.
+   - Click VPC Dashboard.
 
 2. In the left navigation pane, click
    - Internet Gateways
@@ -253,7 +273,11 @@ Without the Internet Gateway, the request stops at the VPC boundary.
     `
     ALB-IGW
     State: Detached`
+    
 This is expected because it has not yet been attached to the VPC.
+
+![Create IGW](https://github.com/Pranith1Kumar/AWS-Shelf/blob/c840bb1747ec0bd7ca41cc787b4ac3867196b81d/Beginner/AWS%20Top%2010%20Core%20Services%20Projects/Create%20an%20Application%20Load%20Balancer/Assets/Create%20IGW.png)
+
 
 ## Step 10: Attach the Internet Gateway to the VPC
 
@@ -267,6 +291,8 @@ An Internet Gateway must be attached to a VPC before it can be used.
 Expected Result: ALB-IGW State should be Attached
 
 Congratulations! Your VPC is now connected to the Internet.
+
+![Attach IGW to VPC](https://github.com/Pranith1Kumar/AWS-Shelf/blob/c840bb1747ec0bd7ca41cc787b4ac3867196b81d/Beginner/AWS%20Top%2010%20Core%20Services%20Projects/Create%20an%20Application%20Load%20Balancer/Assets/Attach%20IGW%20to%20VPC.png)
 
 ## Step 11: Create a Route Table
 
@@ -304,6 +330,8 @@ Go to Internet
 How does AWS know where to send this network traffic?
 - The answer is the Route Table.Without a route table, AWS cannot direct your traffic, and your EC2 instance will have no way to reach the Internet.
 
+![RT Workflow](https://github.com/Pranith1Kumar/AWS-Shelf/blob/96b0076705f68edfa8f0b8861f7758689184fe0c/Beginner/AWS%20Top%2010%20Core%20Services%20Projects/Create%20an%20Application%20Load%20Balancer/Assets/RT%20Work%20Flow.png)
+
 #### Create Route Table
 - Go to: VPC Dashboard --> Route Tables --> Create Route Table
 
@@ -313,8 +341,9 @@ Provide these details
 - **VPC:** ALB-Project-VPC
 
 Click: Create Route Table
+- Expected Output: `Public-RT`
 
-Expected Output: `Public-RT`
+![Route Table](https://github.com/Pranith1Kumar/AWS-Shelf/blob/96b0076705f68edfa8f0b8861f7758689184fe0c/Beginner/AWS%20Top%2010%20Core%20Services%20Projects/Create%20an%20Application%20Load%20Balancer/Assets/Create%20RT.png)
 
 ## Step 12: Configure Internet Route
 
@@ -338,6 +367,8 @@ Now we must add Internet access.
 6. Choose: `ALB-IGW`
 7. Click `Save Changes`
 
+![Edit Route](https://github.com/Pranith1Kumar/AWS-Shelf/blob/96b0076705f68edfa8f0b8861f7758689184fe0c/Beginner/AWS%20Top%2010%20Core%20Services%20Projects/Create%20an%20Application%20Load%20Balancer/Assets/Edit%20Routes%20in%20RT.png)
+
 Explanation: `0.0.0.0/0` means **Any destination Anywhere on the Internet**
 
 ```
@@ -354,6 +385,8 @@ Your Route Table Should Look Like:
 | ----------- | ------- |
 | 10.0.0.0/16 | Local   |
 | 0.0.0.0/0   | ALB-IGW |
+
+![subnets](https://github.com/Pranith1Kumar/AWS-Shelf/blob/96b0076705f68edfa8f0b8861f7758689184fe0c/Beginner/AWS%20Top%2010%20Core%20Services%20Projects/Create%20an%20Application%20Load%20Balancer/Assets/Subnets.png)
 
 ## Step 13: Associate Route Table with Public Subnets
 
@@ -378,6 +411,8 @@ Associate Public Subnet B
 - Repeat the process
 - Select: `Public-Subnet-B`
 - Save Changes.
+
+![Subnet associations](https://github.com/Pranith1Kumar/AWS-Shelf/blob/96b0076705f68edfa8f0b8861f7758689184fe0c/Beginner/AWS%20Top%2010%20Core%20Services%20Projects/Create%20an%20Application%20Load%20Balancer/Assets/Associate%20Subnets.png)
 
 ##### **Why Is This Important?**
 
@@ -405,13 +440,13 @@ Open each subnet.
 
 You should see `Auto Assign Public IPv4` **Enabled**
 
+![enable IPv4](https://github.com/Pranith1Kumar/AWS-Shelf/blob/96b0076705f68edfa8f0b8861f7758689184fe0c/Beginner/AWS%20Top%2010%20Core%20Services%20Projects/Create%20an%20Application%20Load%20Balancer/Assets/Enable%20IPv4.png)
+
 ## Step 15: Verify Your Networking
 
-At this point,
+At this point, your networking should look like this:
 
-your networking should look like this:
-
-VPC (ALB for Top 10) with 10.0.0/16 --> Subnet A & B with 10.0.1.0/24 and 10.0.2.0/24 respectivley --> both subets connected to Route Table (Public RT) --> RT connected to Internet Gateway (ALB-IGW) --> Internet
+`VPC (ALB for Top 10) with 10.0.0/16 --> Subnet A & B with 10.0.1.0/24 and 10.0.2.0/24 respectivley --> both subets connected to Route Table (Public RT) --> RT connected to Internet Gateway (ALB-IGW) --> Internet`
 
 
 ## Step 16: Create Security Groups
@@ -494,6 +529,8 @@ Click: `Create Security Group`
 
 Expected Result You should now have: `ALB-SG`
 
+![SG1](https://github.com/Pranith1Kumar/AWS-Shelf/blob/96b0076705f68edfa8f0b8861f7758689184fe0c/Beginner/AWS%20Top%2010%20Core%20Services%20Projects/Create%20an%20Application%20Load%20Balancer/Assets/Create%20SG1.png)
+
 ## ****Step 18: Create the EC2 Security Group****
 
 #### **Why is a Separate Security Group Needed?**
@@ -543,6 +580,13 @@ Keep the default rule: Type: All Traffic, Destination: Anywhere
 
 Click on `Create Security Group`
 
+![SG2](https://github.com/Pranith1Kumar/AWS-Shelf/blob/96b0076705f68edfa8f0b8861f7758689184fe0c/Beginner/AWS%20Top%2010%20Core%20Services%20Projects/Create%20an%20Application%20Load%20Balancer/Assets/Create%20SG2.png)
+
+check both SG's
+
+![SG1&2](https://github.com/Pranith1Kumar/AWS-Shelf/blob/96b0076705f68edfa8f0b8861f7758689184fe0c/Beginner/AWS%20Top%2010%20Core%20Services%20Projects/Create%20an%20Application%20Load%20Balancer/Assets/Create%20SG1%262.png)
+
+
 ## Step 19: Launch EC2 Instance 1
 
 Open the EC2 Dashboard.
@@ -572,6 +616,8 @@ Keep the default: Volume: gp3, Size 8GB, in my case I use gp2 with 8GB
 
 - Click on launch instance.
 
+![Network settings for VM1](https://github.com/Pranith1Kumar/AWS-Shelf/blob/96b0076705f68edfa8f0b8861f7758689184fe0c/Beginner/AWS%20Top%2010%20Core%20Services%20Projects/Create%20an%20Application%20Load%20Balancer/Assets/Network%20settings%20for%20VM%201.png)
+
 ## Step 20: Launch EC2 Instance 2
 
 - Repeat the same process.
@@ -590,11 +636,14 @@ Use these values:
 
 - Click on Launch Instance
 
+![Nwtwork config for VM2](https://github.com/Pranith1Kumar/AWS-Shelf/blob/96b0076705f68edfa8f0b8861f7758689184fe0c/Beginner/AWS%20Top%2010%20Core%20Services%20Projects/Create%20an%20Application%20Load%20Balancer/Assets/Network%20Settings%20for%20VM%202.png)
+
 ## Step 21: Verify Both Instances
 
 Wait until both instances show:
 
-Image of created instance
+![Checks passed](https://github.com/Pranith1Kumar/AWS-Shelf/blob/96b0076705f68edfa8f0b8861f7758689184fe0c/Beginner/AWS%20Top%2010%20Core%20Services%20Projects/Create%20an%20Application%20Load%20Balancer/Assets/Vm%201%26%202.png)
+
 
 ## Step 22: Connect to Ubuntu via SSH
 
@@ -683,6 +732,8 @@ You should see output indicating:
 
 Active: active (running)
 
+![Apache Status](https://github.com/Pranith1Kumar/AWS-Shelf/blob/96b0076705f68edfa8f0b8861f7758689184fe0c/Beginner/AWS%20Top%2010%20Core%20Services%20Projects/Create%20an%20Application%20Load%20Balancer/Assets/Apache%20active.png)
+
 Press: q to exit the status screen or ctrl + c.
 
 ## Step 25: Test Apache
@@ -698,6 +749,575 @@ You should see the default Apache page:
 Repeat for WebServer-2.
 
 If you can access both pages, your Ubuntu web servers are correctly configured and ready for the next stage.
+
+## **Step 26: Verify Apache Document Root**
+
+On both EC2 instances, Apache stores website files in:
+
+```bash
+/var/www/html
+```
+- Check the existing files:
+
+```bash
+cd /var/www/html
+ls -la
+```
+
+You should see something similar to: `index.html`
+
+This is the default Apache page that we'll replace.
+
+## **Step 27: Remove the Default Apache Page**
+
+- Run the following command on both servers:
+
+```bash
+sudo rm -f /var/www/html/index.html
+```
+- Verify the directory is empty:
+
+```bash
+ls -la /var/www/html
+```
+
+
+## **Step 28: Create the Website**
+
+WebServer-1
+
+Create the HTML file:
+
+```bash
+sudo nano /var/www/html/index.html
+```
+
+Paste the following code exactly:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AWS Application Load Balancer Project</title>
+
+<style>
+
+body{
+    margin:0;
+    padding:0;
+    background:#f5f7fa;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+.container{
+    width:80%;
+    margin:auto;
+    margin-top:50px;
+    text-align:center;
+}
+
+.card{
+    background:white;
+    padding:40px;
+    border-radius:10px;
+    box-shadow:0px 0px 20px rgba(0,0,0,0.2);
+}
+
+h1{
+    color:#232f3e;
+}
+
+.server{
+    font-size:40px;
+    color:#ff9900;
+    margin:20px;
+}
+
+.status{
+    color:green;
+    font-weight:bold;
+    font-size:24px;
+}
+
+.info{
+    margin-top:30px;
+    font-size:18px;
+}
+
+.footer{
+    margin-top:30px;
+    color:gray;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h1>AWS Application Load Balancer Project</h1>
+
+<div class="server">
+
+Web Server 1
+
+</div>
+
+<div class="status">
+
+Server Status : Healthy
+
+</div>
+
+<div class="info">
+
+<p><strong>Hostname:</strong></p>
+
+<pre>
+<script>
+document.write(window.location.hostname);
+</script>
+</pre>
+
+<p>This request has been served by EC2 Instance 1.</p>
+
+<p>After configuring the Application Load Balancer, refreshing the browser should alternate between Web Server 1 and Web Server 2 depending on load balancing and health status.</p>
+
+</div>
+
+<div class="footer">
+
+Project Created Using
+
+Ubuntu Server • Apache2 • AWS EC2 • Application Load Balancer
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
+```
+
+- Save the File
+- Press: `CTRL + O`
+- Press: Enter
+- Exit Nano: `CTRL + X`
+
+## **Step 29: Create the Website on WebServer-2**
+
+- Repeat the same steps on WebServer-2:
+
+```bash
+sudo nano /var/www/html/index.html
+```
+
+- Paste the same HTML code, but change only this section:
+- Replace: `Web Server 1` with `Web Server 2`
+- Replace: `This request has been served by EC2 Instance` 1. with `This request has been served by EC2 Instance 2.`
+- Save the file using:
+  - CTRL + O
+  - Enter
+  - CTRL + X
+
+##** Step 30: Set File Permissions**
+
+Run the following command on both servers:
+
+```bash
+sudo chmod 644 /var/www/html/index.html
+```
+
+## **Step 31: Restart Apache**
+
+- Restart Apache on both servers to ensure the new page is served:
+
+```bash
+sudo systemctl restart apache2
+```
+
+- Check its status:
+
+```bash
+sudo systemctl status apache2
+```
+
+- You should see: `Active: active (running)`
+- Press: q to exit.
+
+![Apache Active](https://github.com/Pranith1Kumar/AWS-Shelf/blob/96b0076705f68edfa8f0b8861f7758689184fe0c/Beginner/AWS%20Top%2010%20Core%20Services%20Projects/Create%20an%20Application%20Load%20Balancer/Assets/Apache%20active.png)
+
+
+## **Step 32: Test the Website**
+
+- Open your browser.
+
+Visit the public IP of WebServer-1: `http://<WebServer-1-Public-IP>`
+
+Expected output:
+
+Title: AWS Application Load Balancer Project
+
+Large heading: Web Server 1
+
+Status: Healthy
+
+Footer mentioning Ubuntu, Apache2, EC2, and ALB.
+
+As per my HTMl code
+
+![ALB VM1](https://github.com/Pranith1Kumar/AWS-Shelf/blob/96b0076705f68edfa8f0b8861f7758689184fe0c/Beginner/AWS%20Top%2010%20Core%20Services%20Projects/Create%20an%20Application%20Load%20Balancer/Assets/ALB%20Web%201.png)
+
+
+- Now visit: `http://<WebServer-2-Public-IP>`
+  
+Expected output:
+
+The same design.
+
+The heading should display Web Server 2.
+
+![ALB VM2](https://github.com/Pranith1Kumar/AWS-Shelf/blob/96b0076705f68edfa8f0b8861f7758689184fe0c/Beginner/AWS%20Top%2010%20Core%20Services%20Projects/Create%20an%20Application%20Load%20Balancer/Assets/ALB%20Web%202.png)
+
+This confirms that each server serves its own page, which will later help you verify that the ALB is distributing traffic correctly.
+
+## **Step 33: Verify Apache Listens on Port 80**
+
+- On either server, run:
+
+```bash
+sudo ss -tulnp | grep :80
+```
+- Expected output: LISTEN
+
+## **Step 34: Confirm Web Accessibility**
+
+At this stage:
+
+- Both EC2 instances are reachable via their public IPs.
+- Apache is serving your custom page.
+- Each page clearly identifies the server.
+- The root path (/) returns HTTP 200 OK, which will be used by the ALB health checks.
+- This confirms Apache is actively listening for HTTP requests.
+
+## **Step 35: Create a Target Group**
+
+What is a Target Group?
+
+A Target Group is a logical collection of backend servers (targets) that receive traffic from the Application Load Balancer.
+
+Think of it as a team of web servers.
+
+```
+                Application Load Balancer
+                          │
+                          ▼
+                  Target Group (Web-TG)
+                   ┌────────┴────────┐
+                   │                 │
+                   ▼                 ▼
+             WebServer-1       WebServer-2
+```
+
+Instead of the ALB sending traffic directly to EC2 instances, it always sends traffic to a Target Group, which then forwards it to healthy targets.
+
+
+#### **Why Do We Need a Target Group?**
+
+The Target Group is responsible for:
+
+- Registering EC2 instances.
+- Performing health checks.
+- Forwarding requests only to healthy instances.
+- Automatically stopping traffic to failed servers.
+- Enabling future auto scaling.
+
+Without a Target Group, the ALB has nowhere to send requests.
+
+## **Step 36: Create the Target Group**
+
+- Open the EC2 Console
+- Log in to the AWS Management Console.
+- Search for EC2.
+- Open the EC2 Dashboard.
+- In the left menu, scroll to Load Balancing.
+- Click Target Groups.
+
+Create a New Target Group
+
+Click: Create Target Group
+
+Basic Configuration
+Choose Target Type
+
+Select: **Target Type:** Instances
+This means our backend servers are EC2 instances.
+- Click Next.
+
+
+Target Group Details
+
+| Setting           | Value           |
+| ----------------- | --------------- |
+| Target Group Name | Web-TG          |
+| Protocol          | HTTP            |
+| Port              | 80              |
+| IP Address Type   | IPv4            |
+| VPC               | ALB-Project-VPC |
+| Protocol Version  | HTTP1           |
+
+- Health Check Configuration
+- Scroll down to the Health Checks section.
+- Configure the following values.
+
+| Setting               | Value        |
+| --------------------- | ------------ |
+| Health Check Protocol | HTTP         |
+| Health Check Path     | /            |
+| Port                  | Traffic Port |
+| Healthy Threshold     | 2            |
+| Unhealthy Threshold   | 2            |
+| Timeout               | 5 Seconds    |
+| Interval              | 30 Seconds   |
+| Success Codes         | 200          |
+
+#### **Why are we using /?**
+
+Our website is served from:
+
+`http://server-ip/`
+
+The server returns: `HTTP 200 OK`
+
+Since the page is always available when Apache is healthy, using / as the health check path is simple and effective for this project.
+
+## **Step 37: Register EC2 Instances**
+
+AWS now displays all available EC2 instances.
+
+You should see:
+
+- WebServer-1
+- WebServer-2
+
+Select both instances.
+
+Click: Include as Pending Below
+
+The instances will appear under Targets.
+
+Click: Create Target Group
+
+## **Step 38: Verify Target Group**
+
+- Open: `Web-TG`
+- Go to: `Targets`
+
+Initially, the status may be: `Initial`
+
+Wait approximately 30–60 seconds while AWS performs the first health check.
+
+The status should then change to:
+
+`Healthy`
+
+Both instances should display:
+
+`
+Health Status:
+Healthy`
+
+**Troubleshooting Target Health**
+
+If the instances remain Unhealthy, check the following:
+
+1. Apache Service
+
+SSH into the instance and verify:
+
+```bash
+sudo systemctl status apache2
+```
+
+The status must be: `Active: active (running)`
+
+2. Test the Website
+
+- Run: 
+
+```bash
+curl http://localhost
+```
+
+You should receive the HTML content of your page.
+
+3. Verify Security Group
+
+The EC2 Security Group must allow:
+
+| Type | Port | Source |
+| ---- | ---- | ------ |
+| HTTP | 80   | ALB-SG |
+
+
+If the source is incorrect (for example, Anywhere instead of ALB-SG), update it.
+
+4. Confirm Apache is Listening
+
+Run:
+
+```bash
+sudo ss -tulnp | grep :80
+```
+
+Expected output: `LISTEN`
+
+## **Step 39: Create the Application Load Balancer**
+
+Now we'll create the Application Load Balancer.
+
+Go to:
+
+```
+EC2 Dashboard
+
+    ↓
+
+Load Balancers
+
+    ↓
+
+Create Load Balancer
+```
+
+- Choose: `Application Load Balancer`
+- Click: Create
+
+Basic Configuration
+
+| Setting            | Value           |
+| ------------------ | --------------- |
+| Load Balancer Name | Web-ALB         |
+| Scheme             | Internet-facing |
+| IP Address Type    | IPv4            |
+
+Network Mapping
+
+Choose: VPC --> ALB-Project-VPC
+
+Select both public subnets:
+
+- Public-Subnet-A
+- Public-Subnet-B
+
+AWS automatically deploys one ALB node in each selected Availability Zone.
+
+
+**Security Groups**
+
+Choose: `ALB-SG`
+
+This Security Group allows the ALB to receive HTTP traffic from users.
+
+**Listener Configuration**
+
+Leave the default listener: `HTTP -->	80`
+
+**Default Action**
+
+- Choose: Forward To
+- Select: `Web-TG`
+
+This tells the ALB to forward incoming HTTP requests to the Target Group you created.
+
+- Click: `Create Load Balancer`
+
+## **Step 40: Wait for the ALB to Become Active**
+
+The ALB status will initially be: `Provisioning`
+
+Wait a few minutes.
+
+Refresh the page.
+
+The status should become: `Active`
+
+## **Step 41: Copy the ALB DNS Name
+**
+- Open: `Web-ALB`
+- Locate the field: `DNS Name`
+
+Example:
+
+`
+Web-ALB-123456789.ap-south-1.elb.amazonaws.com
+`  
+
+- Copy this value.
+
+## **Step 42: Test the Application Load Balancer**
+
+- Open your browser.
+- Visit: `http://<ALB-DNS-Name>`
+- Example: `http://Web-ALB-123456789.ap-south-1.elb.amazonaws.com`
+
+You should see your custom web page.
+
+## **Step 43: Verify Load Balancing**
+
+Refresh the page multiple times.
+
+Depending on the ALB's round-robin algorithm, you should observe:
+
+Refresh 1 --> Web Server 1 
+Refresh 2 --> Web Server 2
+Refresh 3 --> Web Server 1
+Refresh 4 --> Web Server 2
+
+**Note:** Modern browsers may cache content or reuse TCP connections, so alternating on every refresh is not guaranteed. If you keep seeing the same server:
+
+- Open the ALB DNS in an Incognito/Private window
+- Use another browser.
+- Or use the following command repeatedly:
+
+```bash
+curl http://<ALB-DNS-Name>
+```
+
+This often makes the distribution easier to observe.
+
+## **Step 44: Validate High Availability**
+
+Now we'll verify the ALB's health monitoring.
+
+- Go to the EC2 Dashboard.
+Select WebServer-1.
+- Click: `Instance State --> Stop Instance`
+- Wait until the instance is fully stopped.
+Then:
+- Open Target Groups.
+- Select Web-TG.
+- Open the Targets tab.
+
+After a short period, you should see:
+- Instance	Health Status
+- WebServer-1	Unhealthy
+- WebServer-2	Healthy
+- Now access the ALB DNS name again.
+- You should still see your website, but it will always be served by WebServer-2.
+
+This demonstrates that the Application Load Balancer automatically routes traffic only to healthy instances, ensuring high availability without manual intervention.
+
+# **Done You have successfully created ALB with managing traffic with EC2 instances and chcecking health checks.**
+
 
 ## **AWS ALB Project Cleanup**
 
