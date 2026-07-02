@@ -1,0 +1,3 @@
+Project: Launch and Configure an EC2 Instance (AWS)
+
+This is a beginner-friendly GitHub project that you can upload to your repository. It demonstrates how to launch, configure, and connect to an AWS EC2 instance.
